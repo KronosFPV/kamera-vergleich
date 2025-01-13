@@ -12,8 +12,8 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ textAlign: 'center' }}>Kamera Vergleich</h1>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#121212', color: '#f5f5f5', minHeight: '100vh' }}>
+      <h1 style={{ textAlign: 'center', color: '#ffffff' }}>Kamera Vergleich</h1>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
         <input
           type="text"
@@ -23,8 +23,10 @@ export default function Home() {
           style={{
             padding: '10px',
             width: '200px',
-            border: '1px solid #ccc',
+            border: '1px solid #444',
             borderRadius: '5px',
+            backgroundColor: '#1e1e1e',
+            color: '#f5f5f5',
           }}
         />
         <input
@@ -35,8 +37,10 @@ export default function Home() {
           style={{
             padding: '10px',
             width: '200px',
-            border: '1px solid #ccc',
+            border: '1px solid #444',
             borderRadius: '5px',
+            backgroundColor: '#1e1e1e',
+            color: '#f5f5f5',
           }}
         />
         <button
@@ -56,12 +60,12 @@ export default function Home() {
 
       {result && (
         <div style={{ marginTop: '20px' }}>
-          <h2 style={{ textAlign: 'center' }}>Vergleichsergebnisse</h2>
+          <h2 style={{ textAlign: 'center', color: '#ffffff' }}>Vergleichsergebnisse</h2>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
             {/* Kamera 1 */}
-            <div style={{ flex: 1, border: '1px solid #ccc', borderRadius: '10px', padding: '20px', background: '#f9f9f9' }}>
-              <h3 style={{ textAlign: 'center', color: '#333' }}>{result.camera1.name}</h3>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
+            <div style={{ flex: 1, border: '1px solid #444', borderRadius: '10px', padding: '20px', background: '#1e1e1e' }}>
+              <h3 style={{ textAlign: 'center', color: '#ffffff' }}>{result.camera1.name}</h3>
+              <ul style={{ listStyle: 'none', padding: 0, color: '#cccccc' }}>
                 <li><strong>Latenz:</strong> {result.camera1.latency}</li>
                 <li><strong>Auflösung:</strong> {result.camera1.resolution}</li>
                 <li><strong>FPS:</strong> {result.camera1.fps}</li>
@@ -70,6 +74,18 @@ export default function Home() {
             </div>
 
             {/* Kamera 2 */}
-            <div style={{ flex: 1, border: '1px solid #ccc', borderRadius: '10px', padding: '20px', background: '#f9f9f9' }}>
-              <h3 style={{ textAlign: 'center', color: '#333' }}>{result.camera2.name}</h3>
-              <ul style={{ listStyle: 'none', padding: 
+            <div style={{ flex: 1, border: '1px solid #444', borderRadius: '10px', padding: '20px', background: '#1e1e1e' }}>
+              <h3 style={{ textAlign: 'center', color: '#ffffff' }}>{result.camera2.name}</h3>
+              <ul style={{ listStyle: 'none', padding: 0, color: '#cccccc' }}>
+                <li><strong>Latenz:</strong> {result.camera2.latency}</li>
+                <li><strong>Auflösung:</strong> {result.camera2.resolution}</li>
+                <li><strong>FPS:</strong> {result.camera2.fps}</li>
+                <li><strong>Signalstärke:</strong> {result.camera2.signalStrength}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
