@@ -1,9 +1,32 @@
 import axios from "axios";
 
+const API_KEY = "DEIN_GOOGLE_API_KEY"; // Hier den API-Schlüssel einfügen
+const CX_ID = "DEINE_CX_ID"; // Hier die Suchmaschinen-ID einfügen
+
 export default async function handler(req, res) {
   const { camera1, camera2 } = req.body;
 
-  // Liste bekannter Kameras (als Beispiel, kann erweitert werden)
+  // Funktion zur Suche von Kameras mit Google Custom Search
+  async function fetchCameraSuggestions(camera) {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/customsearch/v1`,
+        {
+          params: {
+            key: API_KEY,
+            cx: CX_ID,
+            q: camera,
+          },
+        }
+      );
+      return response.data.items.map((item) => item.title); // Extrahiert die Titel der Ergebnisse
+    } catch (error) {
+      console.error("Fehler bei der Kamerasuche:", error);
+      return [];
+    }
+  }
+
+  // Bekannte Kameras
   const knownCameras = [
     "caddx vista polar starlight",
     "dji o4 air unit",
@@ -11,20 +34,7 @@ export default async function handler(req, res) {
     "foxeer predator v5",
   ];
 
-  // Funktion, um Kameras im Internet zu suchen
-  async function fetchCameraSuggestions(camera) {
-    try {
-      const response = await axios.get(`https://api.example.com/search`, {
-        params: { query: camera },
-      });
-      return response.data.suggestions || [];
-    } catch (error) {
-      console.error("Fehler bei der Kamerasuche:", error);
-      return [];
-    }
-  }
-
-  // Überprüfe Kamera 1
+  // Kamera 1 überprüfen
   let camera1Data;
   if (knownCameras.includes(camera1.toLowerCase())) {
     camera1Data = {
@@ -42,7 +52,7 @@ export default async function handler(req, res) {
     });
   }
 
-  // Überprüfe Kamera 2
+  // Kamera 2 überprüfen
   let camera2Data;
   if (knownCameras.includes(camera2.toLowerCase())) {
     camera2Data = {
@@ -60,7 +70,7 @@ export default async function handler(req, res) {
     });
   }
 
-  // Ergebnis zurückgeben
+  // Ergebnisse zurückgeben
   res.status(200).json({
     camera1: camera1Data,
     camera2: camera2Data,
