@@ -1,42 +1,68 @@
-export default function handler(req, res) {
-  const { camera1, camera2 } = req.query;
+import axios from "axios";
 
-  const dummyData = {
-    "caddx vista polar starlight": {
-      name: "Caddx Vista Polar Starlight",
-      specs: {
-        latency: "0.43 ms",
-        resolution: "1080p",
-        fps: "60 fps",
-        signalStrength: "0.00 dBm",
-        weight: "28 g",
-        fov: "150°",
-        bitrate: "25 Mbps",
-        compatibility: "DJI FPV Goggles V2",
-      },
-    },
-    "dji o4 air unit": {
-      name: "DJI O4 Air Unit",
-      specs: {
-        latency: "0.05 ms",
-        resolution: "1080p",
-        fps: "60 fps",
-        signalStrength: "0.03 dBm",
-        weight: "36 g",
-        fov: "155°",
-        bitrate: "50 Mbps",
-        compatibility: "DJI Goggles 2, Integra",
-      },
-    },
-  };
+export default async function handler(req, res) {
+  const { camera1, camera2 } = req.body;
 
-  const camera1Data = dummyData[camera1.toLowerCase()] || null;
-  const camera2Data = dummyData[camera2.toLowerCase()] || null;
+  // Liste bekannter Kameras (als Beispiel, kann erweitert werden)
+  const knownCameras = [
+    "caddx vista polar starlight",
+    "dji o4 air unit",
+    "runcam split mini",
+    "foxeer predator v5",
+  ];
 
-  if (!camera1Data || !camera2Data) {
-    res.status(404).json({ error: "Eine oder beide Kameras wurden nicht gefunden." });
-    return;
+  // Funktion, um Kameras im Internet zu suchen
+  async function fetchCameraSuggestions(camera) {
+    try {
+      const response = await axios.get(`https://api.example.com/search`, {
+        params: { query: camera },
+      });
+      return response.data.suggestions || [];
+    } catch (error) {
+      console.error("Fehler bei der Kamerasuche:", error);
+      return [];
+    }
   }
 
-  res.status(200).json({ camera1: camera1Data, camera2: camera2Data });
+  // Überprüfe Kamera 1
+  let camera1Data;
+  if (knownCameras.includes(camera1.toLowerCase())) {
+    camera1Data = {
+      name: camera1,
+      latency: "0.43 ms",
+      resolution: "1080p",
+      fps: "60 fps",
+      signalStrength: "-90 dBm",
+    };
+  } else {
+    const suggestions = await fetchCameraSuggestions(camera1);
+    return res.status(404).json({
+      error: `Kamera "${camera1}" nicht gefunden.`,
+      suggestions,
+    });
+  }
+
+  // Überprüfe Kamera 2
+  let camera2Data;
+  if (knownCameras.includes(camera2.toLowerCase())) {
+    camera2Data = {
+      name: camera2,
+      latency: "0.05 ms",
+      resolution: "1080p",
+      fps: "60 fps",
+      signalStrength: "-80 dBm",
+    };
+  } else {
+    const suggestions = await fetchCameraSuggestions(camera2);
+    return res.status(404).json({
+      error: `Kamera "${camera2}" nicht gefunden.`,
+      suggestions,
+    });
+  }
+
+  // Ergebnis zurückgeben
+  res.status(200).json({
+    camera1: camera1Data,
+    camera2: camera2Data,
+  });
 }
