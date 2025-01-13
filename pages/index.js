@@ -12,7 +12,18 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#121212', color: '#f5f5f5', minHeight: '100vh' }}>
+    <div
+      style={{
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+        color: '#f5f5f5',
+        minHeight: '100vh',
+        backgroundImage: 'url(/Medien.jpg)',
+        backgroundRepeat: 'repeat',
+        backgroundSize: '200px 200px',
+        opacity: 0.5,
+      }}
+    >
       <h1 style={{ textAlign: 'center', color: '#ffffff' }}>Kamera Vergleich</h1>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
         <input
@@ -61,7 +72,18 @@ export default function Home() {
       {result && (
         <div style={{ marginTop: '20px' }}>
           <h2 style={{ textAlign: 'center', color: '#ffffff' }}>Vergleichsergebnisse</h2>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: '20px',
+              backgroundImage: 'url(/Medien.jpg)',
+              backgroundSize: '200px 200px',
+              animation: 'rotateTiles 20s infinite linear',
+              opacity: 0.5,
+              padding: '20px',
+            }}
+          >
             {/* Kamera 1 */}
             <div style={{ flex: 1, border: '1px solid #444', borderRadius: '10px', padding: '20px', background: '#1e1e1e' }}>
               <h3 style={{ textAlign: 'center', color: '#ffffff' }}>{result.camera1.name}</h3>
