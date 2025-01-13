@@ -14,17 +14,16 @@ export default function Home() {
   return (
     <div
       style={{
-        padding: '20px',
         fontFamily: 'Arial, sans-serif',
         color: '#f5f5f5',
         minHeight: '100vh',
         backgroundImage: 'url(/Medien.jpg)',
         backgroundRepeat: 'repeat',
         backgroundSize: '200px 200px',
-        opacity: 0.5,
+        opacity: 0.7,
       }}
     >
-      <h1 style={{ textAlign: 'center', color: '#ffffff' }}>Kamera Vergleich</h1>
+      <h1 style={{ textAlign: 'center', color: '#ffffff', padding: '20px' }}>Kamera Vergleich</h1>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
         <input
           type="text"
@@ -70,42 +69,32 @@ export default function Home() {
       </div>
 
       {result && (
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '20px', backgroundColor: '#121212', borderRadius: '10px', padding: '20px' }}>
           <h2 style={{ textAlign: 'center', color: '#ffffff' }}>Vergleichsergebnisse</h2>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              gap: '20px',
-              backgroundImage: 'url(/Medien.jpg)',
-              backgroundSize: '200px 200px',
-              animation: 'rotateTiles 20s infinite linear',
-              opacity: 0.5,
-              padding: '20px',
-            }}
-          >
-            {/* Kamera 1 */}
-            <div style={{ flex: 1, border: '1px solid #444', borderRadius: '10px', padding: '20px', background: '#1e1e1e' }}>
-              <h3 style={{ textAlign: 'center', color: '#ffffff' }}>{result.camera1.name}</h3>
-              <ul style={{ listStyle: 'none', padding: 0, color: '#cccccc' }}>
-                <li><strong>Latenz:</strong> {result.camera1.latency}</li>
-                <li><strong>Auflösung:</strong> {result.camera1.resolution}</li>
-                <li><strong>FPS:</strong> {result.camera1.fps}</li>
-                <li><strong>Signalstärke:</strong> {result.camera1.signalStrength}</li>
-              </ul>
-            </div>
-
-            {/* Kamera 2 */}
-            <div style={{ flex: 1, border: '1px solid #444', borderRadius: '10px', padding: '20px', background: '#1e1e1e' }}>
-              <h3 style={{ textAlign: 'center', color: '#ffffff' }}>{result.camera2.name}</h3>
-              <ul style={{ listStyle: 'none', padding: 0, color: '#cccccc' }}>
-                <li><strong>Latenz:</strong> {result.camera2.latency}</li>
-                <li><strong>Auflösung:</strong> {result.camera2.resolution}</li>
-                <li><strong>FPS:</strong> {result.camera2.fps}</li>
-                <li><strong>Signalstärke:</strong> {result.camera2.signalStrength}</li>
-              </ul>
-            </div>
-          </div>
+          <table style={{ width: '100%', color: '#f5f5f5', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #444' }}></th>
+                <th style={{ textAlign: 'center', padding: '10px', borderBottom: '1px solid #444' }}>{result.camera1.name}</th>
+                <th style={{ textAlign: 'center', padding: '10px', borderBottom: '1px solid #444' }}>{result.camera2.name}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(result.camera1.specs).map((key) => (
+                <tr key={key}>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #444', color: '#aaaaaa' }}>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #444', textAlign: 'center' }}>
+                    {result.camera1.specs[key]}
+                  </td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #444', textAlign: 'center' }}>
+                    {result.camera2.specs[key]}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
