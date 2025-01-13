@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_KEY = "DEIN_GOOGLE_API_KEY"; // Hier den API-Schlüssel einfügen
-const CX_ID = "DEINE_CX_ID"; // Hier die Suchmaschinen-ID einfügen
+const API_KEY = process.env.GOOGLE_API_KEY; // Hier den API-Schlüssel einfügen
+const CX_ID = process.env.GOOGLE_CX_ID; // Hier die Suchmaschinen-ID einfügen
 
 export default async function handler(req, res) {
   const { camera1, camera2 } = req.body;
